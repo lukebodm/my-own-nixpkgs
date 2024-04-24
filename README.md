@@ -1,5 +1,3 @@
-[![Donate!][donate github]][github sponsors link]
-
 # My Custom Nixpkgs Overlay
 
 This repository serves as a template for creating your own collection of custom
