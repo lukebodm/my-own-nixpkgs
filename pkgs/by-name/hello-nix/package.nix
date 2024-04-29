@@ -1,46 +1,35 @@
-{ callPackage
-, lib
+{ lib
 , stdenv
-, fetchurl
-, nixos
-, testers
-, hello
+, fetchFromGitHub
+, coreutils
+, gcc
 }:
 
-stdenv.mkDerivation (finalAttrs: {
-  pname = "hello";
-  version = "2.12.1";
+stdenv.mkDerivation {
+  pname = "hello-nix";
+  version = "0.1";
 
-  src = fetchurl {
-    url = "mirror://gnu/hello/hello-${finalAttrs.version}.tar.gz";
-    sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
+  src = fetchFromGitHub {
+    owner = "lukebodm";
+    repo = "hello-nix";
+    rev = "master";  # You can specify a commit hash or a tag here if needed
+    sha256 = "nX0GxGbbZsJatd8uy0hjN1tHDAaGScAEn1pAvVO23Ss=";
   };
 
-  doCheck = true;
+  buildInputs = [ coreutils gcc ];
 
-  passthru.tests = {
-    version = testers.testVersion { package = hello; };
+  # Build Phases
+  # See: https://nixos.org/nixpkgs/manual/#sec-stdenv-phases
+  configurePhase = ''
+    declare -xp
+  '';
 
-    invariant-under-noXlibs =
-      testers.testEqualDerivation
-        "hello must not be rebuilt when environment.noXlibs is set."
-        hello
-        (nixos { environment.noXlibs = true; }).pkgs.hello;
-  };
+  buildPhase = ''
+    gcc "$src/src/hello.c" -o ./hello
+  '';
 
-  passthru.tests.run = callPackage ./test.nix { hello = finalAttrs.finalPackage; };
-
-  meta = with lib; {
-    description = "A program that produces a familiar, friendly greeting";
-    longDescription = ''
-      GNU Hello is a program that prints "Hello, world!" when you run it.
-      It is fully customizable.
-    '';
-    homepage = "https://www.gnu.org/software/hello/manual/";
-    changelog = "https://git.savannah.gnu.org/cgit/hello.git/plain/NEWS?h=v${finalAttrs.version}";
-    license = licenses.gpl3Plus;
-    maintainers = [ maintainers.eelco ];
-    mainProgram = "hello";
-    platforms = platforms.all;
-  };
-})
+  installPhase = ''
+    mkdir -p "$out/bin"
+    cp ./hello "$out/bin/"
+  '';
+}
