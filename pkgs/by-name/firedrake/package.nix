@@ -21,7 +21,7 @@ let
         inherit callPackages;
 
         # Python to use for all this stuff (much of it is python)
-        python         = pkgs.python27;
+        python         = pkgs.python311;
         pythonPackages = python.pkgs;
 
         # Forked and unavailable packages required by firedrake and its dependencies
