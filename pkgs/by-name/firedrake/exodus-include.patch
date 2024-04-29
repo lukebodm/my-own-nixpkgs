@@ -1,0 +1,10 @@
+--- exodus/forbind/CMakeLists.txt_	2017-04-28 15:32:19.000000000 -0400
++++ exodus/forbind/CMakeLists.txt	2017-04-28 15:49:31.000000000 -0400
+@@ -43,6 +43,7 @@
+ INCLUDE_DIRECTORIES(
+   "${CMAKE_CURRENT_SOURCE_DIR}/include"
+   "${CMAKE_CURRENT_BINARY_DIR}/include"
++  "${CMAKE_SOURCE_DIR}/cbind/include"
+   "${NETCDF_INCLUDE_DIR}"
+ )
+ 

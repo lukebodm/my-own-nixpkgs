@@ -1,0 +1,14 @@
+--- firedrake/setup.py.orig	2017-04-21 17:04:48.554347140 -0400
++++ firedrake/setup.py	2017-04-21 23:09:34.794283607 -0400
+@@ -73,4 +73,5 @@
+       url="http://firedrakeproject.org",
+       packages=["firedrake", "firedrake.mg", "firedrake.slope_limiter",
++                "firedrake.slate","firedrake.slate.slac",
+                 "firedrake.matrix_free", "firedrake_configuration"],
+       package_data={"firedrake": ["firedrake_geometry.h",
+@@ -98,4 +99,5 @@
+                                            "%s/include" % sys.prefix],
+                              libraries=["spatialindex_c"],
++                             language="c++",
+                              extra_link_args=["-L%s/lib" % sys.prefix,
+                                               "-Wl,-rpath,%s/lib" % sys.prefix]),
